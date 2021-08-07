@@ -14,13 +14,13 @@ namespace CoreProject.Domain.Repository
         {
             try
             {
-                IEnumerable<UserModel> users;
+                IEnumerable<UserModel> result;
 
                 using (var db = new UserContext())
                 {
-                    users = db.Users.ToList();
+                    result = db.Users.ToList();
                 }
-                return users;
+                return result;
             }
             catch (Exception ex)
             {
@@ -32,13 +32,13 @@ namespace CoreProject.Domain.Repository
         {
             try
             {
-                UserModel users;
+                UserModel result;
 
                 using (var db = new UserContext())
                 {
-                    users = db.Users.FirstOrDefault(x => x.Id == id);
+                    result = db.Users.FirstOrDefault(x => x.Id == id);
                 }
-                return users;
+                return result;
             }
             catch (Exception ex)
             {
@@ -62,6 +62,23 @@ namespace CoreProject.Domain.Repository
                 return result;
             }
             catch (Exception)
+            {
+                throw new Exception();
+            }
+        }
+
+        public UserModel UpdateByName(UserModel user)
+        {
+            try
+            {
+                using (var db = new UserContext())
+                {
+                    db.Users.Update(user);
+                    db.SaveChanges();
+                }
+                return user;
+            }
+            catch (Exception ex)
             {
                 throw new Exception();
             }

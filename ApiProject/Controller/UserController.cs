@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using static CoreProject.Commands.DeleteUserCommandClass;
 using static CoreProject.Commands.InsertUserCommandClass;
+using static CoreProject.Commands.UpdateUserCommandClass;
 
 namespace ApiProject.Controller
 {
@@ -38,6 +39,12 @@ namespace ApiProject.Controller
         public async Task<UserModel> Post([FromBody] UserModel value)
         {
             return await _mediator.Send(new InsertUserCommand(value));
+        }
+
+        [HttpPatch]
+        public async Task<UserModel> Update([FromBody] UserModel value)
+        {
+            return await _mediator.Send(new UpdateUserCommand(value));
         }
 
         [HttpDelete]

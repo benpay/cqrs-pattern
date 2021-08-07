@@ -10,6 +10,7 @@ namespace CoreProject.Domain.Repository
         IEnumerable<UserModel> All();
         UserModel GetById(Guid id);
         UserModel InsertPerson(UserModel user);
+        UserModel UpdateByName(UserModel user);
         UserModel DeletePerson(UserModel user);
     }
 }
