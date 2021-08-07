@@ -66,5 +66,22 @@ namespace CoreProject.Domain.Repository
                 throw new Exception();
             }
         }
+
+        public UserModel DeletePerson(UserModel user)
+        {
+            try
+            {
+                using (var db = new UserContext())
+                {
+                    db.Remove(user);
+                    db.SaveChanges();
+                }
+                return user;
+            }
+            catch (Exception)
+            {
+                throw new Exception();
+            }
+        }
     }
 }

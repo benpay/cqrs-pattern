@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static CoreProject.Commands.DeleteUserCommandClass;
 using static CoreProject.Commands.InsertUserCommandClass;
 
 namespace ApiProject.Controller
@@ -42,7 +43,7 @@ namespace ApiProject.Controller
         [HttpDelete]
         public async Task<UserModel> Delete([FromBody] UserModel value)
         {
-            return await _mediator.Send(new InsertUserCommand(value));
+            return await _mediator.Send(new DeleteUserCommand(value));
         }
     }
 }
