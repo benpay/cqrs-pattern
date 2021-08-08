@@ -45,7 +45,7 @@ Running the application it will open directly Swagger page, on it you can see tw
 
 For **Addesses** you can update an address, but it is not possible updating **User** because it is needed to have a history about the addresses for a user.
 
-![alt text](https://i.ibb.co/Z1kYJgs/imagen-2021-08-09-011753.png)
+![alt text](https://i.postimg.cc/wB811GwP/capt.jpg)
 
 ## Dependencies
 
