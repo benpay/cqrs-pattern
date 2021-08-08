@@ -41,6 +41,10 @@ namespace CoreProject.Domain.Repository
                 using (var db = new Context())
                 {
                     result = db.Users.FirstOrDefault(x => x.Id == id);
+                    if (result != null)
+                    {
+                        result.Address = db.Addresses.Where(x => x.UserId == result.Id).ToList();
+                    }
                 }
                 return result;
             }
@@ -50,67 +54,82 @@ namespace CoreProject.Domain.Repository
             }
         }
 
-        public UserModel InsertUser(UserModel user)
+        public UserModel InsertUser(string firstName, string lastName, string address)
+        {
+            try
+            {
+                UserModel user = new();
+                using (var db = new Context())
+                {
+
+                    user.Id = Guid.NewGuid();
+                    user.FirstName = firstName;
+                    user.LastName = lastName;
+
+                    AddressesHistoryModel userAddress = new()
+                    {
+                        Id = Guid.NewGuid(),
+                        UserId = user.Id,
+                        Address = address,
+                        AddedOnDate = DateTime.Now
+                    };
+
+                    db.Addresses.Add(userAddress);
+                    db.Users.Add(user);
+                    db.SaveChanges();
+                }
+                return GetById(user.Id);
+            }
+            catch (Exception)
+            {
+                throw new Exception();
+            }
+        }
+
+        public UserModel UpdateByName(Guid id, string firstName, string lastName, string address)
+        {
+            try
+            {
+                using (var db = new Context())
+                {
+                    var user = db.Users.Where(x => x.Id == id).FirstOrDefault();
+                    user.FirstName = firstName ?? user.FirstName;
+                    user.LastName = lastName ?? user.LastName;
+
+                    AddressesHistoryModel userAddress = new()
+                    {
+                        Id = Guid.NewGuid(),
+                        UserId = user.Id,
+                        Address = address,
+                        AddedOnDate = DateTime.Now
+                    };
+
+                    db.Addresses.Add(userAddress);
+                    db.Users.Update(user);
+                    db.SaveChanges();
+                }
+                return GetById(id);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception();
+            }
+        }
+
+        public UserModel DeleteUser(Guid id)
         {
             try
             {
                 UserModel result;
-
                 using (var db = new Context())
                 {
-                    var address = user.Address.FirstOrDefault();
-                    user.Id = Guid.NewGuid();
-                    address.Id = Guid.NewGuid();
-                    address.UserId = user.Id;
-
-                    db.Addresses.Add(address);
-                    db.Users.Add(user);
+                    result = db.Users.Where(x => x.Id == id).FirstOrDefault();
+                    db.Remove(result);
                     db.SaveChanges();
-                    result = user;
                 }
                 return result;
             }
-            catch (Exception)
-            {
-                throw new Exception();
-            }
-        }
-
-        public UserModel UpdateByName(UserModel user)
-        {
-            try
-            {
-                using (var db = new Context())
-                {
-                    var address = user.Address.FirstOrDefault();
-                    address.Id = Guid.NewGuid();
-                    address.UserId = user.Id;
-
-                    db.Addresses.Add(address);
-                    db.Users.Update(user);
-                    db.SaveChanges();
-                }
-                return user;
-            }
             catch (Exception ex)
-            {
-                throw new Exception();
-            }
-        }
-
-        public UserModel DeleteUser(UserModel user)
-        {
-            try
-            {
-                using (var db = new Context())
-                {
-                    //db.Addresses.Remove(user.Address);
-                    db.Remove(user);
-                    db.SaveChanges();
-                }
-                return user;
-            }
-            catch (Exception)
             {
                 throw new Exception();
             }

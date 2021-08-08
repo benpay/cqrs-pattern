@@ -6,10 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using static CoreProject.Commands.DeleteUserCommandClass;
+using static CoreProject.Commands.DeleteAddressCommandClass;
 using static CoreProject.Commands.InsertAddressCommandClass;
-using static CoreProject.Commands.InsertUserCommandClass;
-using static CoreProject.Commands.UpdateUserCommandClass;
+using static CoreProject.Commands.UpdateAddressCommandClass;
 
 namespace ApiProject.Controller
 {
@@ -30,28 +29,28 @@ namespace ApiProject.Controller
             return await _mediator.Send(new GetAddressesListQuery());
         }
 
-        //[HttpGet("{id}")]
-        //public async Task<UserModel> Get(Guid id)
-        //{
-        //    return await _mediator.Send(new GetUserByIdQuery(id));
-        //}
-
-        [HttpPost]
-        public async Task<AddressesHistoryModel> Post([FromBody] AddressesHistoryModel value)
+        [HttpGet("{id}")]
+        public async Task<AddressesHistoryModel> Get(Guid id)
         {
-            return await _mediator.Send(new InsertAddressCommand(value));
+            return await _mediator.Send(new GetAddressByIdQuery(id));
         }
 
-        //[HttpPatch]
-        //public async Task<UserModel> Update([FromBody] UserModel value)
-        //{
-        //    return await _mediator.Send(new UpdateUserCommand(value));
-        //}
+        [HttpPost("{userId}/{address}")]
+        public async Task<AddressesHistoryModel> Post(Guid userId, string address)
+        {
+            return await _mediator.Send(new InsertAddressCommand(userId, address));
+        }
 
-        //[HttpDelete]
-        //public async Task<UserModel> Delete([FromBody] UserModel value)
-        //{
-        //    return await _mediator.Send(new DeleteUserCommand(value));
-        //}
+        [HttpPatch("{id}/{userId}/{address}")]
+        public async Task<AddressesHistoryModel> Update(Guid id, Guid userId, string address)
+        {
+            return await _mediator.Send(new UpdateAddressCommand(id, userId, address));
+        }
+
+        [HttpDelete]
+        public async Task<AddressesHistoryModel> Delete([FromBody] Guid id)
+        {
+            return await _mediator.Send(new DeleteAddressCommand(id));
+        }
     }
 }

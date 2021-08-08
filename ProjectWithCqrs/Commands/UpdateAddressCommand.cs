@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace CoreProject.Commands
 {
-    public class InsertUserCommandClass
+    public class UpdateAddressCommandClass
     {
-        public record InsertUserCommand(string firstName, string lastName, string address) : IRequest<UserModel>;
+        public record UpdateAddressCommand(Guid id, Guid userId, string address) : IRequest<AddressesHistoryModel>;
     }
 }

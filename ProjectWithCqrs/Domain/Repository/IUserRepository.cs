@@ -9,8 +9,8 @@ namespace CoreProject.Domain.Repository
     {
         IEnumerable<UserModel> All();
         UserModel GetById(Guid id);
-        UserModel InsertUser(UserModel user);
-        UserModel UpdateByName(UserModel user);
-        UserModel DeleteUser(UserModel user);
+        UserModel InsertUser(string firstName, string lastName, string address);
+        UserModel UpdateByName(Guid id, string firstName, string lastName, string address);
+        UserModel DeleteUser(Guid id);
     }
 }

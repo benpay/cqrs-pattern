@@ -9,6 +9,6 @@ namespace CoreProject.Commands
 {
     public class DeleteUserCommandClass
     {
-        public record DeleteUserCommand(UserModel value) : IRequest<UserModel>;
+        public record DeleteUserCommand(Guid id) : IRequest<UserModel>;
     }
 }

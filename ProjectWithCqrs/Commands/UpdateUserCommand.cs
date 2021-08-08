@@ -9,6 +9,6 @@ namespace CoreProject.Commands
 {
     public class UpdateUserCommandClass
     {
-        public record UpdateUserCommand(UserModel user) : IRequest<UserModel>;
+        public record UpdateUserCommand(Guid id, string firstName, string lastName, string address) : IRequest<UserModel>;
     }
 }

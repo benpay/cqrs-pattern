@@ -9,6 +9,6 @@ namespace CoreProject.Commands
 {
     public class InsertAddressCommandClass
     {
-        public record InsertAddressCommand(AddressesHistoryModel address) : IRequest<AddressesHistoryModel>;
+        public record InsertAddressCommand(Guid userId, string address) : IRequest<AddressesHistoryModel>;
     }
 }

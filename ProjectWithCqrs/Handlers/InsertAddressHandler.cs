@@ -20,7 +20,7 @@ namespace CoreProject.Handlers
         }
         public Task<AddressesHistoryModel> Handle(InsertAddressCommand request, CancellationToken cancellationToken)
         {
-            return Task.FromResult(_addressesRepository.InsertAddress(request.address));
+            return Task.FromResult(_addressesRepository.InsertAddress(request.userId, request.address));
         }
     }
 }

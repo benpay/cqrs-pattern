@@ -35,22 +35,22 @@ namespace ApiProject.Controller
             return await _mediator.Send(new GetUserByIdQuery(id));
         }
 
-        [HttpPost]
-        public async Task<UserModel> Post([FromBody] UserModel value)
+        [HttpPost("{firstName}/{lastName}/{address}")]
+        public async Task<UserModel> Post(string firstName, string lastName, string address)
         {
-            return await _mediator.Send(new InsertUserCommand(value));
+            return await _mediator.Send(new InsertUserCommand(firstName, lastName, address));
         }
 
-        [HttpPatch]
-        public async Task<UserModel> Update([FromBody] UserModel value)
+        [HttpPatch("{id}/{firstName?}/{lastName?}/{address?}")]
+        public async Task<UserModel> Update(Guid id, string? firstName = null, string? lastName = null, string? address = null)
         {
-            return await _mediator.Send(new UpdateUserCommand(value));
+            return await _mediator.Send(new UpdateUserCommand(id, firstName, lastName, address));
         }
 
-        [HttpDelete]
-        public async Task<UserModel> Delete([FromBody] UserModel value)
+        [HttpDelete("{id}")]
+        public async Task<UserModel> Delete(Guid id)
         {
-            return await _mediator.Send(new DeleteUserCommand(value));
+            return await _mediator.Send(new DeleteUserCommand(id));
         }
     }
 }

@@ -64,20 +64,24 @@ namespace CoreProject.Domain.Repository
             }
         }
 
-        public AddressesHistoryModel InsertAddress(AddressesHistoryModel address)
+        public AddressesHistoryModel InsertAddress(Guid userId, string address)
         {
             try
             {
-                AddressesHistoryModel result;
+                AddressesHistoryModel result = new AddressesHistoryModel()
+                {
+                    Id = Guid.NewGuid(),
+                    UserId = userId,
+                    Address = address,
+                    AddedOnDate = DateTime.Now
+                };
 
                 using (var db = new Context())
                 {
-                    address.Id = Guid.NewGuid();
-                    db.Addresses.Add(address);
+                    db.Addresses.Add(result);
                     db.SaveChanges();
-                    result = address;
                 }
-                return address;
+                return result;
             }
             catch (Exception)
             {
@@ -85,16 +89,23 @@ namespace CoreProject.Domain.Repository
             }
         }
 
-        public AddressesHistoryModel UpdateAddress(AddressesHistoryModel address)
+        public AddressesHistoryModel UpdateAddress(Guid id, Guid userId, string address)
         {
             try
             {
+                AddressesHistoryModel result;
                 using (var db = new Context())
                 {
-                    db.Addresses.Update(address);
-                    db.SaveChanges();
+                    result = db.Addresses.Where(x => x.Id == id).FirstOrDefault();
+                    if (result != null)
+                    {
+                        result.UserId = userId == Guid.Empty ? result.UserId : userId;
+                        result.Address = address == null ? result.Address : address;
+                        db.Addresses.Update(result);
+                        db.SaveChanges();
+                    }
                 }
-                return address;
+                return result;
             }
             catch (Exception ex)
             {
@@ -102,16 +113,18 @@ namespace CoreProject.Domain.Repository
             }
         }
 
-        public AddressesHistoryModel DeleteAddress(AddressesHistoryModel address)
+        public AddressesHistoryModel DeleteAddress(Guid id)
         {
             try
             {
+                AddressesHistoryModel result;
                 using (var db = new Context())
                 {
-                    db.Remove(address);
+                    result = db.Addresses.Where(x => x.Id == id).FirstOrDefault();
+                    db.Remove(result);
                     db.SaveChanges();
                 }
-                return address;
+                return result;
             }
             catch (Exception)
             {

@@ -20,7 +20,7 @@ namespace CoreProject.Handlers
         }
         public Task<UserModel> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
-            return Task.FromResult(_userRepository.UpdateByName(request.user));
+            return Task.FromResult(_userRepository.UpdateByName(request.id, request.firstName, request.lastName, request.address));
         }
     }
 }
