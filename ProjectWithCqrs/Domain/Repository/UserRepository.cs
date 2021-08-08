@@ -46,7 +46,7 @@ namespace CoreProject.Domain.Repository
             }
         }
 
-        public UserModel InsertPerson(UserModel user)
+        public UserModel InsertUser(UserModel user)
         {
             try
             {
@@ -84,7 +84,7 @@ namespace CoreProject.Domain.Repository
             }
         }
 
-        public UserModel DeletePerson(UserModel user)
+        public UserModel DeleteUser(UserModel user)
         {
             try
             {

@@ -20,7 +20,7 @@ namespace CoreProject.Handlers
         }
         public Task<UserModel> Handle(InsertUserCommand request, CancellationToken cancellationToken)
         {
-            return Task.FromResult(_userRepository.InsertPerson(request.user));
+            return Task.FromResult(_userRepository.InsertUser(request.user));
         }
     }
 }

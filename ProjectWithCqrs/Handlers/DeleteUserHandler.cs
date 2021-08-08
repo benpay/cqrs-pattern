@@ -20,7 +20,7 @@ namespace CoreProject.Handlers
         }
         public Task<UserModel> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
         {
-            return Task.FromResult(_userRepository.DeletePerson(request.value));
+            return Task.FromResult(_userRepository.DeleteUser(request.value));
         }
     }
 }
