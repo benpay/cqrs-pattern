@@ -8,10 +8,11 @@ using System.Threading.Tasks;
 
 namespace CoreProject.Domain.Database
 {
-    public class UserContext : DbContext
+    public class Context : DbContext
     {
         public DbSet<UserModel> Users { get; set; }
-
+        public DbSet<AddressesHistoryModel> Addresses { get; set; }
+        
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseSqlite(@"Data source=C:\\temp\\ProjectWithCqrsDatabase.db");
 
         public async Task<int> SaveChanges()

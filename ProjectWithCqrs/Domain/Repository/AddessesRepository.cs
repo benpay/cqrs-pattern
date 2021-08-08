@@ -8,21 +8,17 @@ using System.Threading.Tasks;
 
 namespace CoreProject.Domain.Repository
 {
-    public class UserRepository : IUserRepository
+    public class AddessesRepository : IAddessesRepository
     {
-        public IEnumerable<UserModel> All()
+        public IEnumerable<AddressesHistoryModel> All()
         {
             try
             {
-                IEnumerable<UserModel> result;
+                IEnumerable<AddressesHistoryModel> result;
 
                 using (var db = new Context())
                 {
-                    result = db.Users.ToList();
-                    foreach (var user in result)
-                    {
-                        user.Address = db.Addresses.Where(x => x.UserId == user.Id).ToList();
-                    }
+                    result = db.Addresses.ToList();
                 }
                 return result;
             }
@@ -32,15 +28,15 @@ namespace CoreProject.Domain.Repository
             }
         }
 
-        public UserModel GetById(Guid id)
+        public AddressesHistoryModel GetById(Guid id)
         {
             try
             {
-                UserModel result;
+                AddressesHistoryModel result;
 
                 using (var db = new Context())
                 {
-                    result = db.Users.FirstOrDefault(x => x.Id == id);
+                    result = db.Addresses.FirstOrDefault(x => x.Id == id);
                 }
                 return result;
             }
@@ -50,25 +46,38 @@ namespace CoreProject.Domain.Repository
             }
         }
 
-        public UserModel InsertUser(UserModel user)
+        public AddressesHistoryModel GetByUserId(Guid userId)
         {
             try
             {
-                UserModel result;
+                AddressesHistoryModel result;
 
                 using (var db = new Context())
                 {
-                    var address = user.Address.FirstOrDefault();
-                    user.Id = Guid.NewGuid();
+                    result = db.Addresses.FirstOrDefault(x => x.UserId == userId);
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception();
+            }
+        }
+
+        public AddressesHistoryModel InsertAddress(AddressesHistoryModel address)
+        {
+            try
+            {
+                AddressesHistoryModel result;
+
+                using (var db = new Context())
+                {
                     address.Id = Guid.NewGuid();
-                    address.UserId = user.Id;
-
                     db.Addresses.Add(address);
-                    db.Users.Add(user);
                     db.SaveChanges();
-                    result = user;
+                    result = address;
                 }
-                return result;
+                return address;
             }
             catch (Exception)
             {
@@ -76,21 +85,16 @@ namespace CoreProject.Domain.Repository
             }
         }
 
-        public UserModel UpdateByName(UserModel user)
+        public AddressesHistoryModel UpdateAddress(AddressesHistoryModel address)
         {
             try
             {
                 using (var db = new Context())
                 {
-                    var address = user.Address.FirstOrDefault();
-                    address.Id = Guid.NewGuid();
-                    address.UserId = user.Id;
-
-                    db.Addresses.Add(address);
-                    db.Users.Update(user);
+                    db.Addresses.Update(address);
                     db.SaveChanges();
                 }
-                return user;
+                return address;
             }
             catch (Exception ex)
             {
@@ -98,17 +102,16 @@ namespace CoreProject.Domain.Repository
             }
         }
 
-        public UserModel DeleteUser(UserModel user)
+        public AddressesHistoryModel DeleteAddress(AddressesHistoryModel address)
         {
             try
             {
                 using (var db = new Context())
                 {
-                    //db.Addresses.Remove(user.Address);
-                    db.Remove(user);
+                    db.Remove(address);
                     db.SaveChanges();
                 }
-                return user;
+                return address;
             }
             catch (Exception)
             {

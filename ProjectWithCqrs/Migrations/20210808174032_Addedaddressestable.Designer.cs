@@ -3,14 +3,16 @@ using System;
 using CoreProject.Domain.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CoreProject.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class UserContextModelSnapshot : ModelSnapshot
+    [Migration("20210808174032_Addedaddressestable")]
+    partial class Addedaddressestable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,12 +33,7 @@ namespace CoreProject.Migrations
                     b.Property<Guid>("UserId")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("UserModelId")
-                        .HasColumnType("TEXT");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserModelId");
 
                     b.ToTable("Addresses");
                 });
@@ -47,6 +44,9 @@ namespace CoreProject.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
+                    b.Property<Guid?>("AddressId")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("FirstName")
                         .HasColumnType("TEXT");
 
@@ -55,18 +55,17 @@ namespace CoreProject.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
-                });
+                    b.HasIndex("AddressId");
 
-            modelBuilder.Entity("CoreProject.Domain.Models.AddressesHistoryModel", b =>
-                {
-                    b.HasOne("CoreProject.Domain.Models.UserModel", null)
-                        .WithMany("Address")
-                        .HasForeignKey("UserModelId");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("CoreProject.Domain.Models.UserModel", b =>
                 {
+                    b.HasOne("CoreProject.Domain.Models.AddressesHistoryModel", "Address")
+                        .WithMany()
+                        .HasForeignKey("AddressId");
+
                     b.Navigation("Address");
                 });
 #pragma warning restore 612, 618

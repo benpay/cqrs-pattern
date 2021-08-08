@@ -20,6 +20,7 @@ namespace ApiProject
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IUserRepository, UserRepository>();
+            services.AddSingleton<IAddessesRepository, AddessesRepository>();
             services.AddMediatR(typeof(CoreProjectMediatrEntrypoint).Assembly);
             services.AddControllers();
             services.AddSwaggerGen();
